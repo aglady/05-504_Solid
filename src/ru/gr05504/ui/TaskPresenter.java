@@ -1,7 +1,9 @@
 package ru.gr05504.ui;
 
-import ru.gr05504.application.TaskService;
+import ru.gr05504.application.*;
+import ru.gr05504.domain.FilterType;
 import ru.gr05504.domain.Task;
+import ru.gr05504.domain.TaskFilter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -48,22 +50,11 @@ public class TaskPresenter {
         refresh(view.getFilter());
     }
 
-    // O-1: новый фильтр требует новой ветки if
     private void refresh(String filterName) {
-        List<Task> result = new ArrayList<>();
-        for (Task t : service.getAllTasks()) {
-            if (filterName.equals("Все")) {
-                result.add(t);
-            } else if (filterName.equals("Активные")) {
-                if (!t.isDone()) result.add(t);
-            } else if (filterName.equals("Просроченные")) {
-                // SHOTGUN: та же проверка просрочки, что в сервисе и в окне
-                if (!t.isDone() && t.getDeadline().isBefore(LocalDate.now())) result.add(t);
-            } else if (filterName.equals("Высокий приоритет")) {
-                // PRIMITIVE: сравнение строки с "HIGH"
-                if (t.getPriority().equals("HIGH")) result.add(t);
-            }
-        }
+        FilterType filterType = FilterType.fromDisplayName(filterName);
+
+        List<Task> result = service.getFilteredTasks(filterType);
+
         view.showTasks(result);
         view.showStatistics(service.buildStatisticsText());
     }
