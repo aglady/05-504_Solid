@@ -11,11 +11,12 @@ import java.util.List;
 // GOD OBJECT: форма, разбор дат, фильтры, выполнение задач и статистика в одном классе
 public class TaskPresenter {
     private final TaskView view;
-    // SINGLETON: зависимость скрыта внутри класса, в конструкторе её не видно
-    private final TaskService service = TaskService.getInstance();
 
-    public TaskPresenter(TaskView view) {
+    private final TaskService service;
+
+    public TaskPresenter(TaskView view, TaskService service) {
         this.view = view;
+        this.service = service;
     }
 
     public void start() {

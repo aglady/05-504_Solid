@@ -9,15 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class TaskService {
-    // SINGLETON: глобальный единственный экземпляр
-    private static final TaskService INSTANCE = new TaskService();
 
     // D-1: сервис сам создаёт конкретное хранилище
     private final TaskRepository repository = new InMemoryTaskRepository();
-
-    private TaskService() { }
-
-    public static TaskService getInstance() { return INSTANCE; }
 
     // ANEMIC: все проверки здесь, а сама задача ничего не проверяет
     public void createTask(String title, LocalDate deadline, String priority, boolean archived) {

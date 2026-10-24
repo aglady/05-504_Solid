@@ -1,5 +1,6 @@
 package ru.gr05504.ui;
 
+import ru.gr05504.application.TaskService;
 import ru.gr05504.domain.Task;
 
 import javax.swing.*;
@@ -23,8 +24,8 @@ public class TaskWindow extends JFrame implements TaskView {
     private final JList<Task> taskList = new JList<>(listModel);
     private final JLabel statisticsLabel = new JLabel(" ");
 
-    public TaskWindow() {
-        this.presenter = new TaskPresenter(this);
+    public TaskWindow(TaskService service) {
+        this.presenter = new TaskPresenter(this, service);
 
         setTitle("Список задач");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
