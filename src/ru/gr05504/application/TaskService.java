@@ -10,8 +10,11 @@ import java.util.List;
 
 public class TaskService {
 
-    // D-1: сервис сам создаёт конкретное хранилище
-    private final TaskRepository repository = new InMemoryTaskRepository();
+    private final TaskRepository repository;
+
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
+    }
 
     // ANEMIC: все проверки здесь, а сама задача ничего не проверяет
     public void createTask(String title, LocalDate deadline, String priority, boolean archived) {
